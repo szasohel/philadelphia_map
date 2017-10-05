@@ -20,9 +20,34 @@ html, body {
 	position: absolute;
 	border: 1px solid grey;
 	border-radius: 5px;
+	color: white;
+}
+
+#filter{
+	height: 5%;
+}
+
+#marker_list{
+	height: 60%;
+	width: 100%;
+	overflow: auto;
+}
+
+.wikipedia-container{
+	height: 40%;
+	width: 100%;
+	background-color: yellow;
+	overflow: auto;
+	color: blue;
 }
 
 li{
 	margin: 10px 0 10px 0;
 	list-style-type: none;
 }
+
+a{
+	text-decoration: none;
+}
+
+

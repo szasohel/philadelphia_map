@@ -9,20 +9,25 @@
 </head>
 <body>
 	<div id="sidebar">
-		<ul data-bind="foreach: markers">
+		<div id="filter">
+			<p>Filter:<input data-bind="value: filter, valueUpdate: 'afterkeydown'" /></p>
+		</div>
+		<div id="marker_list">
+			<ul data-bind="foreach: markers">
             <li data-bind="text: title, click: $parent.openInfoWindow"></li>
-        </ul>
-        <div>
-        	<div class="wikipedia-container">
-        	<h3 id="wikipedia-header"></h3>
-        	<ul id="wikipedia-links"></ul>
-    </div>
-        </div>
+        	</ul>
+		</div>
+    	<div class="wikipedia-container">
+	    	<h3 id="wikipedia-header"></h3>
+	    	<p id="wikipedia-body"></p>
+	    	<ul id="wikipedia-links"></ul>
+		</div>
 	</div>
 	<div id="map"></div>
 
 
 
+	<script src="js/lib/jquery.min.js"></script>
 	<script src="js/lib/knockout-3.2.0.js"></script>
     <script src="js/app.js"></script>
 	<script async defer
