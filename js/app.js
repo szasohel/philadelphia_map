@@ -1,12 +1,12 @@
 // model codes
 var data = [
-      {title: 'Independence National Historical Park', location: {lat: 39.949531, lng: -75.149732}},
-      {title: 'Independence Hall', location: {lat: 39.948874, lng: -75.150023}},
-      {title: 'Hill-Physick-Keith House', location: {lat: 39.944312, lng: -75.148354}},
-      {title: 'National Museum of American Jewish History', location: {lat: 39.950181, lng: -75.148426}},
-      {title: 'Thaddeus Kosciuszko National Memorial', location: {lat: 39.943464, lng: -75.147278}},
-      {title: 'Athenaeum of Philadelphia', location: {lat: 39.946873, lng: -75.150959}},
-      {title: 'Benjamin Franklin Museum', location: {lat: 39.950122, lng: -75.146682}}
+      {title: 'Independence National Historical Park', type: 'Park', location: {lat: 39.949531, lng: -75.149732}},
+      {title: 'Independence Hall', type: 'Museum', location: {lat: 39.948874, lng: -75.150023}},
+      {title: 'Hill-Physick-Keith House', type: 'Museum', location: {lat: 39.944312, lng: -75.148354}},
+      {title: 'National Museum of American Jewish History', type: 'Museum', location: {lat: 39.950181, lng: -75.148426}},
+      {title: 'Thaddeus Kosciuszko National Memorial', type: 'Museum', location: {lat: 39.943464, lng: -75.147278}},
+      {title: 'Athenaeum of Philadelphia', type: 'Museum', location: {lat: 39.946873, lng: -75.150959}},
+      {title: 'Benjamin Franklin Museum', type: 'Museum', location: {lat: 39.950122, lng: -75.146682}}
     ];
     
 var map;
@@ -34,7 +34,7 @@ var ViewModel = function(){
 		var marker = new google.maps.Marker({
 			position: position,
 			title: title,
-			map:map,
+			map:map,// take it out and put it in the show listing
 			animation: google.maps.Animation.DROP,
 			icon: defaultIcon,
 	        id: i

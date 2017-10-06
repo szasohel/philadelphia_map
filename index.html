@@ -9,9 +9,6 @@
 </head>
 <body>
 	<div id="sidebar">
-		<div id="filter">
-			<p>Filter:<input data-bind="value: filter, valueUpdate: 'afterkeydown'" /></p>
-		</div>
 		<div id="marker_list">
 			<ul data-bind="foreach: markers">
             <li data-bind="text: title, click: $parent.openInfoWindow"></li>

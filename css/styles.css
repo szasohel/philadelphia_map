@@ -24,7 +24,8 @@ html, body {
 }
 
 #filter{
-	height: 5%;
+	height: 10%;
+	background-color: blue;
 }
 
 #marker_list{
