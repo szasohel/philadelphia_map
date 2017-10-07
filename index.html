@@ -1,33 +1,37 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>Neighborhood Maps</title>
-	<meta name="viewport" content="initial-scale=1.0">
+    <title>Neighborhood Maps</title>
+    <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
 
 </head>
+
 <body>
-	<div id="sidebar">
-		<div id="marker_list">
-			<ul data-bind="foreach: markers">
-            <li data-bind="text: title, click: $parent.openInfoWindow"></li>
-        	</ul>
-		</div>
-    	<div class="wikipedia-container">
-	    	<h3 id="wikipedia-header"></h3>
-	    	<p id="wikipedia-body"></p>
-	    	<ul id="wikipedia-links"></ul>
-		</div>
-	</div>
-	<div id="map"></div>
+    <div id="sidebar">
+        <div id="marker_list">
+        	<label>Filter: </label>
+            <select data-bind="options: typeOptions, value: selection"></select>
+            <ul data-bind="foreach: markers">
+                <li data-bind="text: title, click: $parent.openInfoWindow"></li>
+            </ul>
+        </div>
+        <div class="wikipedia-container">
+            <h3 id="wikipedia-header">Wikipedia Article for selected location</h3>
+            <p id="wikipedia-body"></p>
+            <ul id="wikipedia-links"></ul>
+        </div>
+    </div>
+    <div id="map"></div>
 
 
 
-	<script src="js/lib/jquery.min.js"></script>
-	<script src="js/lib/knockout-3.2.0.js"></script>
+    <script src="js/lib/jquery.min.js"></script>
+    <script src="js/lib/knockout-3.2.0.js"></script>
     <script src="js/app.js"></script>
-	<script async defer
-        src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyBIJQksXDfxddXI4qGbuFjsHgX4HRSTYqM&v=3&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyBIJQksXDfxddXI4qGbuFjsHgX4HRSTYqM&v=3&callback=initMap"></script>
 </body>
+
 </html>

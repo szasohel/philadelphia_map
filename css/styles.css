@@ -1,54 +1,94 @@
-html, body {
-	/*html and body height is required as map won't appeared*/
-	font-family: Arial, sans-serif;
-	height: 100%;
-	margin: 0;
-	padding: 0;
+html,
+body {
+    /*html and body height is required as map won't appeared*/
+    
+    font-family: Arial, sans-serif;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
-
-#map{
-	height: 100%;
-	position: relative;
-	right: 0;
-	left: 350px;
+#map {
+    height: 100%;
+    position: relative;
+    right: 0;
+    left: 350px;
 }
-
 #sidebar {
-	height: 100%;
-	width: 350px;
-	background-color: grey;
-	position: absolute;
-	border: 1px solid grey;
-	border-radius: 5px;
-	color: white;
+    height: 100%;
+    width: 350px;
+    background-color: grey;
+    position: absolute;
+    border: 1px solid grey;
+    border-radius: 5px;
+    color: white;
 }
-
-#filter{
-	height: 10%;
-	background-color: blue;
+#marker_list {
+    height: 60%;
+    width: 100%;
+    overflow: auto;
+    align-items: center;
 }
-
-#marker_list{
-	height: 60%;
-	width: 100%;
-	overflow: auto;
+.wikipedia-container {
+    height: 40%;
+    width: 100%;
+    background-color: yellow;
+    overflow: auto;
+    color: blue;
 }
-
-.wikipedia-container{
-	height: 40%;
-	width: 100%;
-	background-color: yellow;
-	overflow: auto;
-	color: blue;
+label {
+    margin-left: 70px;
 }
-
-li{
-	margin: 10px 0 10px 0;
-	list-style-type: none;
+select {
+    margin: 10px 0 10px 0;
 }
-
-a{
-	text-decoration: none;
+li {
+    margin: 20px 0 10px 0;
+    list-style-type: none;
 }
-
-
+a {
+    text-decoration: none;
+}
+@media (max-width: 1146px) {
+    #map {
+        height: 100%;
+        width: 80%;
+        position: relative;
+        right: 0;
+        left: 200px;
+    }
+    #sidebar {
+        height: 100%;
+        width: 200px;
+        background-color: grey;
+        position: absolute;
+        border: 1px solid grey;
+        border-radius: 5px;
+        color: white;
+    }
+    li {
+        margin: 0 0 10px 0;
+        list-style-type: none;
+    }
+}
+@media (max-width: 750px) {
+    #map {
+        height: 100%;
+        width: 60%;
+        position: relative;
+        right: 0;
+        left: 200px;
+    }
+    #sidebar {
+        height: 100%;
+        width: 200px;
+        background-color: grey;
+        position: absolute;
+        border: 1px solid grey;
+        border-radius: 5px;
+        color: white;
+    }
+    li {
+        margin: 0 0 10px 0;
+        list-style-type: none;
+    }
+}
