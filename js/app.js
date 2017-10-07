@@ -90,7 +90,7 @@ var ViewModel = function() {
         self.dataList.push(new Location(locationItem));
     });
 
-
+    // creates marker
     for (var i = 0; i < data.length; i++) {
         var position = data[i].location;
         var title = data[i].title;
@@ -98,16 +98,20 @@ var ViewModel = function() {
         var marker = new google.maps.Marker({
             position: position,
             title: title,
-            map: map, // take it out and put it in the show listing
+            map: map,
             animation: google.maps.Animation.DROP,
             icon: defaultIcon,
             id: i
         });
-        // Push the marker to our array of markers.
+
+        // Push the marker to array of markers.
         markers.push(marker);
 
-        // Create an onclick event to open the large infowindow at each marker.
-        marker.addListener('click', function() {
+        // Create an onclick event to open the infowindow at each marker.
+        marker.addListener('click', markerAnimation);
+        bounds.extend(markers[i].position);
+    }
+	function markerAnimation() {
             for (var i = 0; i < markers.length; i++) {
                 markers[i].setAnimation(null);
                 markers[i].setIcon(defaultIcon);
@@ -115,9 +119,8 @@ var ViewModel = function() {
             populateInfoWindow(this, infowindow);
             this.setAnimation(google.maps.Animation.BOUNCE);
             this.setIcon(highlightedIcon);
-        });
-        bounds.extend(markers[i].position);
     }
+
     map.fitBounds(bounds);
     // to call populateInfoWindow() when clicked on the list
     this.openInfoWindow = function(clickedMarker) {
@@ -130,7 +133,7 @@ var ViewModel = function() {
         clickedMarker.setIcon(highlightedIcon);
         clickedMarker.setAnimation(google.maps.Animation.BOUNCE);
         populateInfoWindow(clickedMarker, infowindow);
-    }
+    };
 
     self.typeOptions = ['All', 'Park', 'Museum'];
 
@@ -194,7 +197,7 @@ var ViewModel = function() {
                 var article_title = response[1];
                 var articles = response[2];
                 var links = response[3];
-                if (article_title.length == 0) {
+                if (article_title.length === 0) {
                     $wikiHead.append('Sorry!!! No article is available for ' + marker.title);
                 } else {
                     header = article_title[0];
@@ -223,9 +226,9 @@ var ViewModel = function() {
         return markerImage;
     }
 
-}
+};
 
-// Map initialization
+//============================Map initialization==================================
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         // center: {lat: 39.812265, lng: -74.929979},
