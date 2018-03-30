@@ -1,94 +1,74 @@
 html,
-body {
+body{
     /*html and body height is required as map won't appeared*/
-    
     font-family: Arial, sans-serif;
     height: 100%;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    background-color: rgba(224, 255, 51, .7);
 }
+
 #map {
     height: 100%;
-    position: relative;
-    right: 0;
-    left: 350px;
 }
-#sidebar {
+.navbar{
     height: 100%;
-    width: 350px;
-    background-color: grey;
+}
+
+#title{
+    text-shadow: 1px 1px 2px rgb(216, 65, 65);
+}
+
+#sidebar {
+    height: auto;
+    width: 15%;
+    background-color: rgba(224, 255, 51, .7);
     position: absolute;
-    border: 1px solid grey;
-    border-radius: 5px;
-    color: white;
+    top: 20%;
+    left: 2%;
+    border: 1px solid  rgba(224, 255, 51, .7);
+    border-radius: 20px;
+    color: black;
+    z-index: 1;
+    padding: 10px;
+    text-align: center;
+}
+#hide{
+    float: right;
+    cursor: pointer;
+    background:  rgba(224, 255, 51, .7);
+    font-size: 13px;
+    font-weight: bolder;
 }
 #marker_list {
     height: 60%;
     width: 100%;
     overflow: auto;
     align-items: center;
+    text-align: left;
 }
-.wikipedia-container {
-    height: 40%;
-    width: 100%;
-    background-color: yellow;
-    overflow: auto;
-    color: blue;
-}
-label {
-    margin-left: 70px;
-}
+
 select {
     margin: 10px 0 10px 0;
+    border-radius: 10px;
+    height: 25px;
+    width: 100%;
 }
-li {
-    margin: 20px 0 10px 0;
-    list-style-type: none;
-}
+
 a {
     text-decoration: none;
 }
-@media (max-width: 1146px) {
-    #map {
-        height: 100%;
-        width: 80%;
-        position: relative;
-        right: 0;
-        left: 200px;
-    }
-    #sidebar {
-        height: 100%;
-        width: 200px;
-        background-color: grey;
-        position: absolute;
-        border: 1px solid grey;
-        border-radius: 5px;
-        color: white;
-    }
-    li {
-        margin: 0 0 10px 0;
-        list-style-type: none;
-    }
+
+#loc-list{
+    list-style-type: circle;
+    border: 1px solid rgba(224, 255, 51, .3);
+    border-radius: 20px;
+    background:rgba(10, 249, 224, .3);
 }
-@media (max-width: 750px) {
-    #map {
-        height: 100%;
-        width: 60%;
-        position: relative;
-        right: 0;
-        left: 200px;
-    }
-    #sidebar {
-        height: 100%;
-        width: 200px;
-        background-color: grey;
-        position: absolute;
-        border: 1px solid grey;
-        border-radius: 5px;
-        color: white;
-    }
-    li {
-        margin: 0 0 10px 0;
-        list-style-type: none;
-    }
+
+.loc-title{
+    cursor: pointer;
+    margin: 20px 0 20px 0;
+    font-weight: bold;
 }

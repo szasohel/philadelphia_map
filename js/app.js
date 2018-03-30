@@ -58,14 +58,14 @@ var data = [{
 ];
 
 var map;
-var markers = [];
+//var markers = [];
 
 //=================================viewmodel codes=================================
 var ViewModel = function() {
-	var self = this;
-	// initializes bounds
+    var self = this;
+    // initializes bounds
     var bounds = new google.maps.LatLngBounds();
-    
+
     // initializes infoWindow
     var infowindow = new google.maps.InfoWindow();
 
@@ -80,81 +80,59 @@ var ViewModel = function() {
     var Location = function(data) {
         this.title = data.title;
         this.type = data.type;
+        this.latLng = data.location;
+        this.marker = new google.maps.Marker({
+            position: this.latLng,
+            animation: google.maps.Animation.DROP,
+            title: this.title,
+            map: map,
+            icon: defaultIcon,
+        })
     };
 
     self.dataList = ko.observableArray([]);
+    dataList = self.dataList;
 
     // creates new location object and pushes into dataList array
-
     data.forEach(function(locationItem) {
-        self.dataList.push(new Location(locationItem));
+        dataList.push(new Location(locationItem));
     });
 
-    // creates marker
-    for (var i = 0; i < data.length; i++) {
-        var position = data[i].location;
-        var title = data[i].title;
-
-        var marker = new google.maps.Marker({
-            position: position,
-            title: title,
-            map: map,
-            animation: google.maps.Animation.DROP,
-            icon: defaultIcon,
-            id: i
+    for (var i = 0; i < dataList().length; i++) {
+        dataList()[i].marker.addListener('click', function() {
+            populateInfoWindow(this, infowindow);
+            markerAnimation(this);
         });
 
-        // Push the marker to array of markers.
-        markers.push(marker);
-
-        // Create an onclick event to open the infowindow at each marker.
-        marker.addListener('click', markerAnimation);
-        bounds.extend(markers[i].position);
+        bounds.extend(dataList()[i].marker.position);
     }
-	function markerAnimation() {
-            for (var i = 0; i < markers.length; i++) {
-                markers[i].setAnimation(null);
-                markers[i].setIcon(defaultIcon);
-            }
-            populateInfoWindow(this, infowindow);
-            this.setAnimation(google.maps.Animation.BOUNCE);
-            this.setIcon(highlightedIcon);
-    }
-
     map.fitBounds(bounds);
+
+    
+
+    function markerAnimation(marker) {
+        for (var i = 0; i < dataList().length; i++) {
+            dataList()[i].marker.setAnimation(null);
+            dataList()[i].marker.setIcon(defaultIcon);
+        }
+        populateInfoWindow(marker, infowindow);
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+        marker.setIcon(highlightedIcon);
+    }
+
+
     // to call populateInfoWindow() when clicked on the list
-    this.openInfoWindow = function(clickedMarker) {
-        if (clickedMarker) {
-            for (var i = 0; i < markers.length; i++) {
-                markers[i].setAnimation(null);
-                markers[i].setIcon(defaultIcon);
+    this.openInfoWindow = function(clickedItem) {
+        if (clickedItem) {
+            for (var i = 0; i < dataList().length; i++) {
+                dataList()[i].marker.setAnimation(null);
+                dataList()[i].marker.setIcon(defaultIcon);
             }
         }
-        clickedMarker.setIcon(highlightedIcon);
-        clickedMarker.setAnimation(google.maps.Animation.BOUNCE);
-        populateInfoWindow(clickedMarker, infowindow);
+        clickedItem.marker.setIcon(highlightedIcon);
+        clickedItem.marker.setAnimation(google.maps.Animation.BOUNCE);
+        populateInfoWindow(clickedItem.marker, infowindow);
     };
-
-    self.typeOptions = ['All', 'Park', 'Museum'];
-
-    self.selection = ko.observable(self.typeOptions[0]);
-
-    self.filterItems = ko.computed(function() {
-        var selection = self.selection();
-        for (var i = 0; i < self.dataList().length; i++) {
-
-            if (selection === self.typeOptions[0]) {
-                if (marker) {
-                    markers[i].setVisible(true);
-                }
-            } else if (selection !== self.dataList()[i].type) {
-                markers[i].setVisible(false);
-            } else {
-                markers[i].setVisible(true);
-            }
-        }
-    });
-
 
     // populates and opens a infowindow 
     function populateInfoWindow(marker, infowindow) {
@@ -172,18 +150,10 @@ var ViewModel = function() {
             infowindow.open(map, marker);
         }
 
-        // AJAX request for wiki article about the place
-        var $wikiLink = $('#wikipedia-links');
-        var $wikiBody = $('#wikipedia-body');
-        var $wikiHead = $('#wikipedia-header');
-        // clear out old data before new request
-        $wikiLink.text("");
-        $wikiHead.text("");
-        $wikiBody.text("");
+
         // wikipedia AJAX request
         wiki_url = 'http://en.wikipedia.org/w//api.php?action=opensearch&search=' +
             marker.title + '&format=json&callback=wikiCallback';
-        console.log(wiki_url);
 
         var wiki_timeout = setTimeout(function() {
             $wikiHead.text('Failed to get wiki resources');
@@ -198,14 +168,12 @@ var ViewModel = function() {
                 var articles = response[2];
                 var links = response[3];
                 if (article_title.length === 0) {
-                    $wikiHead.append('Sorry!!! No article is available for ' + marker.title);
+                    infowindow.setContent("No article available");
                 } else {
                     header = article_title[0];
                     article = articles[0];
                     link = links[0];
-
-                    $wikiHead.append('<a href="' + links + '">' + header + '</a>');
-                    $wikiBody.text(article);
+                    infowindow.setContent(header + ': ' + article);
                 }
                 clearTimeout(wiki_timeout);
             }
@@ -213,6 +181,33 @@ var ViewModel = function() {
         });
 
     }
+
+    self.typeOptions = ['All', 'Park', 'Museum'];
+
+    self.selection = ko.observable(self.typeOptions[0]);
+
+    self.filterItems = ko.computed(function() {
+        tempFilteredList = ko.observableArray([]);
+        var selection = self.selection();
+        for (var i = 0; i < dataList().length; i++) {
+            if (selection === self.typeOptions[0]) {
+                if (dataList()[i].marker) {
+                    dataList()[i].marker.setVisible(true);
+                    tempFilteredList().push(self.dataList()[i]);
+                }
+            } else if (selection !== dataList()[i].type) {
+                dataList()[i].marker.setVisible(false);
+                // self.tempFilteredList().pop(self.dataList()[i]);
+            } else {
+                dataList()[i].marker.setVisible(true);
+                tempFilteredList().push(self.dataList()[i]);
+            }
+        }
+
+        return tempFilteredList();
+    });
+
+
 
     // make marker icon
     function makeMarkerIcon(markerColor) {
@@ -242,4 +237,15 @@ function initMap() {
 
 
     ko.applyBindings(new ViewModel());
+}
+
+//============================Map error handler==================================
+
+function mapErrorHandler() {
+    var errText = 'Something wrong! Please try again';
+
+    var mapElem = document.getElementById('map');
+    var errorElem = document.createElement('p');
+    errorElem.innerHTML = errText;
+    mapDiv.appendChild(errorDiv);
 }
